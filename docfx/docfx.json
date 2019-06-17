@@ -1,0 +1,52 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "../",
+          "files": ["src/**.csproj"],
+          "exclude": ["src/**Test.csproj"]
+        }
+      ],
+      "dest": "api"
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": ["*.yml", "*.md"],
+        "src": "api",
+        "dest": "api"
+      },
+      {
+        "files": ["version_notes.md", "toc.yml", "index.md"]
+      }
+    ],
+    "resource": [
+      {
+        "files": ["images/**"]
+      }
+    ],
+    "overwrite": [{}],
+    "globalMetadata": {
+      "_appTitle": "Lett.Extensions",
+      "_appFooter": "Copyright (c) 2019 viacooky. All rights reserved.",
+      "_appFaviconPath": "images/icon_128.ico",
+      "_appLogoPath": "images/logo_229_50.png",
+      "_enableSearch": true,
+      "_disableContribution": true,
+      "_enableNewTab": true
+    },
+    "dest": "_site",
+    "globalMetadataFiles": [],
+    "fileMetadataFiles": [],
+    "template": ["default", "default(zh-cn)", "material/material"],
+    "postProcessors": [],
+    "markdownEngineName": "markdig",
+    "noLangKeyword": true,
+    "keepFileLink": true,
+    "cleanupCacheHistory": true,
+    "disableGitFeatures": false,
+    "xrefService": ["https://xref.docs.microsoft.com/query?uid={uid}"]
+  }
+}
