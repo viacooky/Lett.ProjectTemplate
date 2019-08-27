@@ -124,6 +124,15 @@ Task("_dotNetCore_Pack")
    DotNetCorePack(settings.buildCsprojFilePath, packSettings);
 });
 
+Task("_docfx")
+   .Does(() =>
+{
+   Information("生成文档");
+   DocFxMetadata("./docfx/docfx.json");
+   DocFxBuild("./docfx/docfx.json");
+   Context.CopyDirectory(Directory("./docfx/_site"), Directory(settings.DocsDirPath));
+});
+
 // === 公开命令 ==========================================
 
 Task("Help")
@@ -150,6 +159,7 @@ Task("Build")
 .IsDependentOn("_clean")
 .IsDependentOn("_dotNetCore_Build")
 .Does(() => {
+   Information("构建任务完成");
 });
 
 Task("Test")
@@ -157,6 +167,7 @@ Task("Test")
 .IsDependentOn("_dotNetCore_Test")
 .IsDependentOn("_codeCoverage")
 .Does(() => {
+   Information("测试任务完成");
    Information(".Net Core Test results:");
    var vsTestResults = GetFiles($"{settings.VSTestResultDirPath}/**/*.*");
    foreach(var f in vsTestResults ) Information($"{f.FullPath}");
@@ -170,10 +181,19 @@ Task("Nuget")
 .IsDependentOn("_clean")
 .IsDependentOn("_dotNetCore_Pack")
 .Does(() => {
+   Information(" NuGet 打包任务完成");
    Information("NuGet Package Version: {settings.nugetVer}}");
    Information("NuGet Package Path:");
    var nugetPackResults = GetFiles($"{settings.NuGetPackageDirPath}/**/*.*");
    foreach(var f in nugetPackResults ) Information($"{f.FullPath}");
+});
+
+Task("Docs")
+.IsDependentOn("_clean")
+.IsDependentOn("_docfx")
+.Does(() => {
+   Information(" docfx 文档生成任务完成");
+   Information($"docs_site path: {settings.DocsDirPath}");
 });
 
 Task("All")
@@ -182,9 +202,9 @@ Task("All")
 .IsDependentOn("_dotNetCore_Test")
 .IsDependentOn("_codeCoverage")
 .IsDependentOn("_dotNetCore_Pack")
+.IsDependentOn("_docfx")
 .Does(() => {
    Information("执行所有任务");
 });
-
 
 RunTarget(settings.Target);

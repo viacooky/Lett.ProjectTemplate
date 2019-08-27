@@ -33,7 +33,7 @@ public class Settings
     /// </summarty>
     public string ReleaseDirPath
     {
-        get { return $"{WorkDirPath}/build_dist"; }
+        get { return $"{WorkDirPath}/build"; }
     }
     /// <summary>
     /// 结果目录
@@ -69,6 +69,13 @@ public class Settings
     public string CodeCoverageDirPath
     {
         get { return $"{ReleaseDirPath}/code_coverage"; }
+    }
+    /// <summary>
+    /// 文档目录
+    /// </summarty>
+    public string DocsDirPath
+    {
+        get { return $"{ReleaseDirPath}/docs_site"; }
     }
 }
 
