@@ -460,11 +460,10 @@ docfx/api/
 # Edit at https://www.gitignore.io/?templates=cake
 
 ### Cake ###
-tools/*
-!tools/packages.config
+build/tools/*
+!build/tools/packages.config
 
 # End of https://www.gitignore.io/api/cake
 
-build/
 build_dist/
 .vscode/

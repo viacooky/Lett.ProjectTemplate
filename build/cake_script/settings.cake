@@ -33,7 +33,7 @@ public class Settings
     /// </summarty>
     public string ReleaseDirPath
     {
-        get { return $"{WorkDirPath}/build"; }
+        get { return $"{WorkDirPath}/build_result"; }
     }
     /// <summary>
     /// 结果目录

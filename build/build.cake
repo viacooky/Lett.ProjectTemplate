@@ -6,7 +6,7 @@
 #tool nuget:?package=docfx.console&version=2.42.4
 #addin nuget:?package=Cake.Coverlet&version=2.3.4
 
-#load "settings.cake"
+#load "cake_script/settings.cake"
 
 
 // === 参数 ==========================================

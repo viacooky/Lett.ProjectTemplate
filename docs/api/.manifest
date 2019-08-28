@@ -1,0 +1,5 @@
+{
+  "dotNetCore.Lib": "dotNetCore.Lib.yml",
+  "dotNetCore.Lib.HelloWorld": "dotNetCore.Lib.HelloWorld.yml",
+  "dotNetCore.Lib.HelloWorld.SayHello": "dotNetCore.Lib.HelloWorld.yml"
+}

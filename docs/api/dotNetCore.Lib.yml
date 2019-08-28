@@ -1,0 +1,22 @@
+### YamlMime:ManagedReference
+items:
+- uid: dotNetCore.Lib
+  commentId: N:dotNetCore.Lib
+  id: dotNetCore.Lib
+  children:
+  - dotNetCore.Lib.HelloWorld
+  langs:
+  - csharp
+  - vb
+  name: dotNetCore.Lib
+  nameWithType: dotNetCore.Lib
+  fullName: dotNetCore.Lib
+  type: Namespace
+  assemblies:
+  - dotNetCore.Lib
+references:
+- uid: dotNetCore.Lib.HelloWorld
+  commentId: T:dotNetCore.Lib.HelloWorld
+  name: HelloWorld
+  nameWithType: HelloWorld
+  fullName: dotNetCore.Lib.HelloWorld

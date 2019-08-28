@@ -1,0 +1,6 @@
+### YamlMime:TableOfContent
+- uid: dotNetCore.Lib
+  name: dotNetCore.Lib
+  items:
+  - uid: dotNetCore.Lib.HelloWorld
+    name: HelloWorld

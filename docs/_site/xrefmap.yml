@@ -1,0 +1,28 @@
+### YamlMime:XRefMap
+sorted: true
+references:
+- uid: dotNetCore.Lib
+  name: dotNetCore.Lib
+  href: api/dotNetCore.Lib.html
+  commentId: N:dotNetCore.Lib
+  fullName: dotNetCore.Lib
+  nameWithType: dotNetCore.Lib
+- uid: dotNetCore.Lib.HelloWorld
+  name: HelloWorld
+  href: api/dotNetCore.Lib.HelloWorld.html
+  commentId: T:dotNetCore.Lib.HelloWorld
+  fullName: dotNetCore.Lib.HelloWorld
+  nameWithType: HelloWorld
+- uid: dotNetCore.Lib.HelloWorld.SayHello
+  name: SayHello()
+  href: api/dotNetCore.Lib.HelloWorld.html#dotNetCore_Lib_HelloWorld_SayHello
+  commentId: M:dotNetCore.Lib.HelloWorld.SayHello
+  fullName: dotNetCore.Lib.HelloWorld.SayHello()
+  nameWithType: HelloWorld.SayHello()
+- uid: dotNetCore.Lib.HelloWorld.SayHello*
+  name: SayHello
+  href: api/dotNetCore.Lib.HelloWorld.html#dotNetCore_Lib_HelloWorld_SayHello_
+  commentId: Overload:dotNetCore.Lib.HelloWorld.SayHello
+  isSpec: "True"
+  fullName: dotNetCore.Lib.HelloWorld.SayHello
+  nameWithType: HelloWorld.SayHello
