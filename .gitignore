@@ -450,9 +450,9 @@ fabric.properties
 
 ### DocFx ###
 .cache
-docfx/**/_site/
-docfx/.obj/
-docfx/api/
+docs/**/_site/
+docs/.obj/
+docs/api/
 
 # End of https://www.gitignore.io/api/docfx
 
