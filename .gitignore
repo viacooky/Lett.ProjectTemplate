@@ -448,13 +448,7 @@ fabric.properties
 # Created by https://www.gitignore.io/api/docfx
 # Edit at https://www.gitignore.io/?templates=docfx
 
-### DocFx ###
-.cache
-docs/**/_site/
-docs/.obj/
-docs/api/
 
-# End of https://www.gitignore.io/api/docfx
 
 # Created by https://www.gitignore.io/api/cake
 # Edit at https://www.gitignore.io/?templates=cake
@@ -465,5 +459,14 @@ build/tools/*
 
 # End of https://www.gitignore.io/api/cake
 
-build_dist/
+# cake编译结果
+build_result/
 .vscode/
+
+### DocFx ###
+.cache
+docs/_site/*
+docs/.obj/
+docs/api/
+
+# End of https://www.gitignore.io/api/docfx

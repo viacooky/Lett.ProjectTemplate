@@ -5,9 +5,8 @@
 # This file was downloaded from https://github.com/cake-build/resources
 # Feel free to change this file to fit your needs.
 ##########################################################################
-
 # Define directories.
-SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/build
+SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 TOOLS_DIR=$SCRIPT_DIR/tools
 ADDINS_DIR=$TOOLS_DIR/Addins
 MODULES_DIR=$TOOLS_DIR/Modules
@@ -27,7 +26,7 @@ else
 fi
 
 # Define default arguments.
-SCRIPT="build.cake"
+SCRIPT="build/build.cake"
 CAKE_ARGUMENTS=()
 
 # Parse arguments.

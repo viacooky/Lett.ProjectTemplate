@@ -10,15 +10,13 @@
 
 
 // === 参数 ==========================================
-const string SCRIPT_VER= "0.0.1";
-const string AUTHOR= "viacooky";
 
 var settings = new Settings{
-   WorkDirPath = Context.Environment.WorkingDirectory.FullPath,
+   Context = Context,
    Target = Argument("target", "Help"),
    Configuration = Argument("configuration", "Release"),
-   buildCsprojFilePath="src/dotNetCore.Lib/dotNetCore.Lib.csproj",
-   testCsprojFilePath="src/dotNetCore.Lib.MSTest/dotNetCore.Lib.MSTest.csproj",
+   buildCsprojFilePath="../src/dotNetCore.Lib/dotNetCore.Lib.csproj",
+   testCsprojFilePath="../src/dotNetCore.Lib.MSTest/dotNetCore.Lib.MSTest.csproj",
    NuGetVersion = Argument("nugetVer","0.0.0"),
    AssemblyVersion = Argument("assemblyVer", "0.0.0"),
 };
@@ -37,9 +35,13 @@ Setup(ctx =>
       if(string.IsNullOrEmpty(settings.NuGetVersion)) throw new CakeException("--nugetVer 参数不能为空");
    }
 
-   Information($"任务执行开始 : {settings.Target}");
-   Information($"参数");
-   Information($"Work Path: {settings.WorkDirPath}");
+   if(settings.Target.ToLower().Equals("help")) return;
+
+   Information($"任务 [{settings.Target}] 开始执行...");
+   Information(settings.GetRuntimeMsg());
+   Information("");
+   Information($"Project Base Path: {settings.ProjectBasePath}");
+   Information($"ReleaseDirPath Path: {settings.ReleaseDirPath}");
    Information($"NuGet Version: {settings.NuGetVersion}");
    Information($"Configuration: {settings.Configuration}");
    Information($"Assembly Version: {settings.AssemblyVersion}");
@@ -47,7 +49,7 @@ Setup(ctx =>
 
 Teardown(ctx =>
 {
-   Information("任务执行结束");
+   Information($"任务 [{settings.Target}] 执行完成");
 });
 
 
@@ -56,37 +58,32 @@ Teardown(ctx =>
 Task("_clean")
    .Does(() =>
 {
-   Information("清理");
+   Information("任务 [清理] 开始执行...");
    DotNetCoreClean(settings.buildCsprojFilePath);
-   CleanDirectory(new FilePath(settings.buildCsprojFilePath).GetDirectory().Combine("bin"));
-   CleanDirectory(new FilePath(settings.buildCsprojFilePath).GetDirectory().Combine("obj"));
-   
    DotNetCoreClean(settings.testCsprojFilePath);
-   CleanDirectory(new FilePath(settings.testCsprojFilePath).GetDirectory().Combine("bin"));
-   CleanDirectory(new FilePath(settings.testCsprojFilePath).GetDirectory().Combine("obj"));
-   
    CleanDirectory(settings.ReleaseDirPath);
+   Information("任务 [清理] 执行完成");
 });
 
 Task("_dotNetCore_Build")
    .Does(() =>
 {
+   Information($"任务 [项目构建任务] 开始执行: {settings.buildCsprojFilePath}");
    Information($"还原NuGet包: {settings.buildCsprojFilePath}");
    DotNetCoreRestore(settings.buildCsprojFilePath);
-
-   Information($"开始构建: {settings.buildCsprojFilePath}");
    DotNetCoreBuild(settings.buildCsprojFilePath, new DotNetCoreBuildSettings{
       Configuration = settings.Configuration,
       OutputDirectory = settings.ProjectBuildDirPath,
       ArgumentCustomization = args => args.Append($"/p:Version={settings.NuGetVersion}")
                                           .Append($"/p:AssemblyVersion={settings.AssemblyVersion}")
    });
+   Information($"任务 [项目构建任务] 执行完成: {settings.buildCsprojFilePath}");
 });
 
 Task("_dotNetCore_Test")
    .Does(() =>
 {
-   Information("开始测试");
+   Information("任务 [测试] 开始执行...");
    var testSettings = new DotNetCoreTestSettings{
       Configuration = settings.Configuration,
       NoBuild = false,
@@ -94,12 +91,17 @@ Task("_dotNetCore_Test")
       VSTestReportPath = settings.VSTestResultFilePath,
    };
    DotNetCoreTest(settings.testCsprojFilePath, testSettings);
+   Information("任务 [测试] 执行完成");
+   Information("\r\n");
+   Information("VSTest results:");
+   var vsTestResults = GetFiles($"{settings.VSTestResultDirPath}/**/*.*");
+   foreach(var f in vsTestResults ) Information($"{f.FullPath}");
 });
 
 Task("_codeCoverage")
    .Does(() =>
 {
-   Information("代码覆盖率");
+   Information("任务 [代码覆盖率] 执行开始...");
    EnsureDirectoryExists(settings.CodeCoverageDirPath);
    var coverletSettings = new CoverletSettings {
           CollectCoverage = true,
@@ -107,13 +109,19 @@ Task("_codeCoverage")
           CoverletOutputDirectory = settings.CodeCoverageDirPath,
           CoverletOutputName = "Coverage"
       };
-      DotNetCoreBuild(settings.testCsprojFilePath, new DotNetCoreBuildSettings {Configuration = "Debug"});
-      Coverlet(new FilePath(settings.testCsprojFilePath), coverletSettings);
+   DotNetCoreBuild(settings.testCsprojFilePath, new DotNetCoreBuildSettings {Configuration = "Debug"});
+   Coverlet(new FilePath(settings.testCsprojFilePath), coverletSettings);
+   Information("任务 [代码覆盖率] 执行完成");
+   Information("\r\n");
+   Information("Code Coverage results:");
+   var codeCoverageResults = GetFiles($"{settings.CodeCoverageDirPath}/**/*.*");
+   foreach(var f in codeCoverageResults ) Information($"{f.FullPath}");
 });
 
 Task("_dotNetCore_Pack")
    .Does(() =>
 {
+   Information("任务 [构建NuGet包] 执行开始...");
    var packSettings = new DotNetCorePackSettings{
       Configuration = settings.Configuration,
       IncludeSymbols = false,
@@ -122,44 +130,39 @@ Task("_dotNetCore_Pack")
                                           .Append($"/p:AssemblyVersion={settings.AssemblyVersion}")
    };
    DotNetCorePack(settings.buildCsprojFilePath, packSettings);
+   Information("任务 [构建NuGet包] 执行完成");
+   Information("\r\n");
+   Information("nuget package results:");
+   var nugetPackageResults = GetFiles($"{settings.NuGetPackageDirPath}/**/*.*");
+   foreach(var f in nugetPackageResults ) Information($"{f.FullPath}");
 });
 
 Task("_docfx")
    .Does(() =>
 {
-   Information("生成文档");
-   DocFxMetadata("./docfx/docfx.json");
-   DocFxBuild("./docfx/docfx.json");
-   Context.CopyDirectory(Directory("./docfx/_site"), Directory(settings.DocsDirPath));
+   Information("任务 [docfx 文档生成] 执行开始...");
+   CleanDirectory($"{settings.ProjectBasePath}/docs/_site");
+   CleanDirectory($"{settings.ProjectBasePath}/docs/obj");
+   CleanDirectory($"{settings.ProjectBasePath}/docs/api");
+   Information(settings.ProjectBasePath);
+   DocFxMetadata($"{settings.ProjectBasePath}/docs/docfx.json");
+   DocFxBuild($"{settings.ProjectBasePath}/docs/docfx.json");
+   Context.CopyDirectory(Directory($"{settings.ProjectBasePath}/docs/_site"), Directory(settings.DocsDirPath));
+   Information("任务 [docfx 文档生成] 执行完成");
+   Information($"docs_site path: {settings.DocsDirPath}");
 });
 
 // === 公开命令 ==========================================
 
 Task("Help")
 .Does(() => {
-   Information("Lett cake build script");
-   Information($"版本: {SCRIPT_VER}");
-   Information($"作者: {AUTHOR}");
-   Information("用法: ./build.sh --target=Build --configuration=Release");
-   Information("参数说明");
-   Information("    --target=Build    \t编译");
-   Information("        --configuration    \t编译参数, 默认为 Release, 可选: Release | Debug");
-   Information("        --assemblyVer    \t程序集版本号,默认为 0.0.0");
-   Information("");
-   Information("    --target=Test    \t测试,并生成 [测试报告] 及 [代码覆盖率报告] ");
-   Information("        --configuration    \t编译参数, 默认为 Release, 可选: Release | Debug");
-   Information("");
-   Information("    --target=Nuget    \t编译,并生成 NuGet Package");
-   Information("        --configuration    \t编译参数, 默认为 Release, 可选: Release | Debug");
-   Information("        --nugetVer    \t\tNuGet版本号,默认为 0.0.0");
-   Information("        --assemblyVer    \t程序集版本号,默认为 0.0.0");
+   Information(settings.GetHelpMsg());
 });
 
 Task("Build")
 .IsDependentOn("_clean")
 .IsDependentOn("_dotNetCore_Build")
 .Does(() => {
-   Information("构建任务完成");
 });
 
 Task("Test")
@@ -167,33 +170,18 @@ Task("Test")
 .IsDependentOn("_dotNetCore_Test")
 .IsDependentOn("_codeCoverage")
 .Does(() => {
-   Information("测试任务完成");
-   Information(".Net Core Test results:");
-   var vsTestResults = GetFiles($"{settings.VSTestResultDirPath}/**/*.*");
-   foreach(var f in vsTestResults ) Information($"{f.FullPath}");
-   Information("\r\n");
-   Information("Code Coverage results:");
-   var codeCoverageResults = GetFiles($"{settings.CodeCoverageDirPath}/**/*.*");
-   foreach(var f in codeCoverageResults ) Information($"{f.FullPath}");
 });
 
 Task("Nuget")
 .IsDependentOn("_clean")
 .IsDependentOn("_dotNetCore_Pack")
 .Does(() => {
-   Information(" NuGet 打包任务完成");
-   Information("NuGet Package Version: {settings.nugetVer}}");
-   Information("NuGet Package Path:");
-   var nugetPackResults = GetFiles($"{settings.NuGetPackageDirPath}/**/*.*");
-   foreach(var f in nugetPackResults ) Information($"{f.FullPath}");
 });
 
 Task("Docs")
 .IsDependentOn("_clean")
 .IsDependentOn("_docfx")
 .Does(() => {
-   Information(" docfx 文档生成任务完成");
-   Information($"docs_site path: {settings.DocsDirPath}");
 });
 
 Task("All")
@@ -204,7 +192,6 @@ Task("All")
 .IsDependentOn("_dotNetCore_Pack")
 .IsDependentOn("_docfx")
 .Does(() => {
-   Information("执行所有任务");
 });
 
 RunTarget(settings.Target);

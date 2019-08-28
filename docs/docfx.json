@@ -1,19 +1,14 @@
 {
-  "metadata": [
-    {
-      "src": [
-        {
-          "src": "../",
-          "files": ["src/**.csproj"],
-          "exclude": ["src/**Test.csproj"]
-        }
-      ],
-      "dest": "api"
-    }
-  ],
+  "metadata": [{
+    "src": [{
+      "src": "../",
+      "files": ["src/**.csproj"],
+      "exclude": ["src/**Test.csproj"]
+    }],
+    "dest": "api",
+  }],
   "build": {
-    "content": [
-      {
+    "content": [{
         "files": ["*.yml", "*.md"],
         "src": "api",
         "dest": "api"
@@ -22,11 +17,10 @@
         "files": ["version_notes.md", "toc.yml", "index.md"]
       }
     ],
-    "resource": [
-      {
-        "files": ["images/**"]
-      }
-    ],
+    "resource": [{
+      "files": ["**/images/**"],
+      "exclude": ["_site/**", "**/obj/**", "**.meta"]
+    }],
     "overwrite": [{}],
     "globalMetadata": {
       "_appTitle": "Lett.Extensions",
