@@ -12,13 +12,13 @@
 // === 参数 ==========================================
 
 var settings = new Settings{
-   Context = Context,
-   Target = Argument("target", "Help"),
-   Configuration = Argument("configuration", "Release"),
+   Context            = Context,
+   Target             = Argument("target", "Help"),
+   Configuration      = Argument("configuration", "Release"),
    buildCsprojFilePath="../src/dotNetCore.Lib/dotNetCore.Lib.csproj",
-   testCsprojFilePath="../src/dotNetCore.Lib.MSTest/dotNetCore.Lib.MSTest.csproj",
-   NuGetVersion = Argument("nugetVer","0.0.0"),
-   AssemblyVersion = Argument("assemblyVer", "0.0.0"),
+   testCsprojFilePath ="../src/dotNetCore.Lib.MSTest/dotNetCore.Lib.MSTest.csproj",
+   NuGetVersion       = Argument("nugetVer","0.0.0"),
+   AssemblyVersion    = Argument("assemblyVer", "0.0.0"),
 };
 
 
@@ -72,8 +72,8 @@ Task("_dotNetCore_Build")
    Information($"还原NuGet包: {settings.buildCsprojFilePath}");
    DotNetCoreRestore(settings.buildCsprojFilePath);
    DotNetCoreBuild(settings.buildCsprojFilePath, new DotNetCoreBuildSettings{
-      Configuration = settings.Configuration,
-      OutputDirectory = settings.ProjectBuildDirPath,
+      Configuration         = settings.Configuration,
+      OutputDirectory       = settings.ProjectBuildDirPath,
       ArgumentCustomization = args => args.Append($"/p:Version={settings.NuGetVersion}")
                                           .Append($"/p:AssemblyVersion={settings.AssemblyVersion}")
    });
@@ -85,9 +85,9 @@ Task("_dotNetCore_Test")
 {
    Information("任务 [测试] 开始执行...");
    var testSettings = new DotNetCoreTestSettings{
-      Configuration = settings.Configuration,
-      NoBuild = false,
-      NoRestore = false,
+      Configuration    = settings.Configuration,
+      NoBuild          = false,
+      NoRestore        = false,
       VSTestReportPath = settings.VSTestResultFilePath,
    };
    DotNetCoreTest(settings.testCsprojFilePath, testSettings);
@@ -104,10 +104,10 @@ Task("_codeCoverage")
    Information("任务 [代码覆盖率] 执行开始...");
    EnsureDirectoryExists(settings.CodeCoverageDirPath);
    var coverletSettings = new CoverletSettings {
-          CollectCoverage = true,
-          CoverletOutputFormat = CoverletOutputFormat.opencover | CoverletOutputFormat.cobertura | CoverletOutputFormat.json | CoverletOutputFormat.lcov,
+          CollectCoverage         = true,
+          CoverletOutputFormat    = CoverletOutputFormat.opencover | CoverletOutputFormat.cobertura | CoverletOutputFormat.json | CoverletOutputFormat.lcov,
           CoverletOutputDirectory = settings.CodeCoverageDirPath,
-          CoverletOutputName = "Coverage"
+          CoverletOutputName      = "Coverage"
       };
    DotNetCoreBuild(settings.testCsprojFilePath, new DotNetCoreBuildSettings {Configuration = "Debug"});
    Coverlet(new FilePath(settings.testCsprojFilePath), coverletSettings);
@@ -123,9 +123,9 @@ Task("_dotNetCore_Pack")
 {
    Information("任务 [构建NuGet包] 执行开始...");
    var packSettings = new DotNetCorePackSettings{
-      Configuration = settings.Configuration,
-      IncludeSymbols = false,
-      OutputDirectory = settings.NuGetPackageDirPath,
+      Configuration         = settings.Configuration,
+      IncludeSymbols        = false,
+      OutputDirectory       = settings.NuGetPackageDirPath,
       ArgumentCustomization = args => args.Append($"/p:Version={settings.NuGetVersion}")
                                           .Append($"/p:AssemblyVersion={settings.AssemblyVersion}")
    };
