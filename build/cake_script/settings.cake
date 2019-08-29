@@ -36,56 +36,56 @@ public class Settings
     /// 项目目录
     /// </summary>
     public string ProjectBasePath { 
-        get { return new DirectoryInfo(Context.Environment.WorkingDirectory.FullPath).Parent.FullName; }
+        get { return new DirectoryPath(new DirectoryInfo(Context.Environment.WorkingDirectory.FullPath).Parent.FullName).FullPath; }
     }
     /// <summary>
     /// 结果目录
     /// </summarty>
     public string ReleaseDirPath
     {
-        get { return $"{ProjectBasePath}/build_result"; }
+        get { return new DirectoryPath(ProjectBasePath).Combine("build_result").FullPath; }
     }
     /// <summary>
     /// 结果目录
     /// </summarty>
     public string ProjectBuildDirPath
     {
-        get { return $"{ReleaseDirPath}/{Configuration}"; }
+        get { return new DirectoryPath(ReleaseDirPath).Combine(Configuration).FullPath; }
     }
     /// <summary>
     /// NuGet包构建目录
     /// </summarty>
     public string NuGetPackageDirPath
     {
-        get { return $"{ReleaseDirPath}/nuget_package"; }
+        get { return new DirectoryPath(ReleaseDirPath).Combine("nuget_package").FullPath; }
     }
     /// <summary>
     /// VSTest测试结果目录
     /// </summarty>
     public string VSTestResultDirPath
     {
-        get { return $"{ReleaseDirPath}/vstest"; }
+        get { return new DirectoryPath(ReleaseDirPath).Combine("nuget_package").FullPath; }
     }
     /// <summary>
     /// VSTest测试结果文件目录
     /// </summarty>
     public string VSTestResultFilePath
     {
-        get { return $"{VSTestResultDirPath}/VSTestResult.xml"; }
+        get { return new DirectoryPath(VSTestResultDirPath).CombineWithFilePath("VSTestResult.xml").FullPath; }
     }
     /// <summary>
     /// 代码覆盖率结果目录
     /// </summarty>
     public string CodeCoverageDirPath
     {
-        get { return $"{ReleaseDirPath}/code_coverage"; }
+        get { return new DirectoryPath(ReleaseDirPath).Combine("code_coverage").FullPath; }
     }
     /// <summary>
     /// 文档目录
     /// </summarty>
     public string DocsDirPath
     {
-        get { return $"{ReleaseDirPath}/docs_site"; }
+        get { return new DirectoryPath(ReleaseDirPath).Combine("docs_site").FullPath; }
     }
 
     /// <summary>
@@ -138,6 +138,8 @@ public class Settings
         sb.Append("        --nugetVer    \t\tNuGet版本号,默认为 0.0.0");
         sb.Append("\r\n");
         sb.Append("        --assemblyVer    \t程序集版本号,默认为 0.0.0");
+        sb.Append("\r\n");
+        sb.Append("    --target=Docs    \t生成 docfx 文档");
         return sb.ToString();
     }
 }
