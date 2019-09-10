@@ -167,6 +167,7 @@ Task("Build")
 
 Task("Test")
 .IsDependentOn("_clean")
+.IsDependentOn("_dotNetCore_Build")
 .IsDependentOn("_dotNetCore_Test")
 .IsDependentOn("_codeCoverage")
 .Does(() => {
