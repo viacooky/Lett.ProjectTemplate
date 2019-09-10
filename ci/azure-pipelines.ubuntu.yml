@@ -25,9 +25,9 @@ steps:
       version: $(dotnetVersion)
       installationPath: $(Agent.ToolsDirectory)/dotnet
   - bash: |
-      chmod +x ./build.sh
-      ./build.sh --bootstrap
-      ./build.sh --target=Test
+      chmod +x ./build/build.sh
+      ./build/build.sh --bootstrap
+      ./build/build.sh --target=Test
     env:
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
