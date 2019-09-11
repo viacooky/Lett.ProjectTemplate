@@ -25,11 +25,7 @@ steps:
       version: $(dotnetVersion)
       installationPath: $(Agent.ToolsDirectory)/dotnet
   - bash: |
-<<<<<<< HEAD
       chmod +x ./build/build.sh
-=======
-      chmod +x ./build.sh
->>>>>>> master
       ./build/build.sh --bootstrap
       ./build/build.sh --target=Test
     env:
