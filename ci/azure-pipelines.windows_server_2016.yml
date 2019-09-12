@@ -40,6 +40,6 @@ steps:
     inputs:
       testResultsFormat: 'VSTest'
       testResultsFiles: '**/TestResult.xml'
-      searchFolder: '$(System.DefaultWorkingDirectory)/build_result/vstest_result/VSTestResult.xml'
+      searchFolder: '$(System.DefaultWorkingDirectory)/build_result/vstest_result'
       mergeTestResults: true
     displayName: '上传 VSTest Result 到 azure'
