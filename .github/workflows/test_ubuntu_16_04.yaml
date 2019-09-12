@@ -1,0 +1,22 @@
+name: CI
+
+on: 
+  push:
+    branches:
+    - master
+    - release/*
+  pull_request:
+    - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: run test
+      run: |
+        chmod +x ./build/build.sh
+        ./build/build.sh --bootstrap
+        ./build/build.sh --target=Test
