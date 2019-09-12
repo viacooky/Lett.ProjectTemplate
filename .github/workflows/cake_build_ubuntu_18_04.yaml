@@ -1,0 +1,21 @@
+name: 'Build and Test on Ubuntu 18.04'
+
+on:
+  push:
+    branches:
+      - master
+      - release/*
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  Build-and-Test:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+      - name: ‘执行 Cake Task’
+        run: |
+          chmod +x ./build/build.sh
+          ./build/build.sh --bootstrap
+          ./build/build.sh --target=Test

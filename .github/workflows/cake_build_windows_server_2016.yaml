@@ -1,0 +1,20 @@
+name: 'Build and Test on Windows Server 2016 R2'
+
+on:
+  push:
+    branches:
+      - master
+      - release/*
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  Build-and-Test:
+    runs-on: windows-2016
+    steps:
+      - uses: actions/checkout@v1
+      - name: ‘执行 Cake Task’
+        run: |
+          ./build/build.ps1 --bootstrap
+          ./build/build.ps1 --target=Test
