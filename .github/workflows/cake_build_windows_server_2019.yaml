@@ -16,5 +16,6 @@ jobs:
       - uses: actions/checkout@v1
       - name: ‘执行 Cake Task’
         run: |
-          build/build.ps1 --bootstrap
-          build/build.ps1 --target=Test
+          .\build\build.ps1 --bootstrap
+          .\build\build.ps1 --target=Test
+          shell: powershell
