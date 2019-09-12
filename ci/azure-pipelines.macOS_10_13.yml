@@ -1,0 +1,44 @@
+trigger:
+  branches:
+    include:
+      - master
+      - develop
+      - release/*
+  paths:
+    exclude:
+      - README.md
+      - docs/*
+
+variables:
+  dotnetVersion: 2.2.300
+
+pool:
+  vmImage: 'macOS-10.13'
+
+steps:
+  - task: UseDotNet@2
+    displayName: '安装 .NET Core sdk'
+    inputs:
+      packageType: sdk
+      version: $(dotnetVersion)
+      installationPath: $(Agent.ToolsDirectory)/dotnet
+  - bash: |
+      chmod +x ./build/build.sh
+      ./build/build.sh --bootstrap
+      ./build/build.sh --target=Test
+    env:
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+    displayName: 执行 cake
+  - task: PublishCodeCoverageResults@1
+        inputs:
+          codeCoverageTool: 'Cobertura'
+          summaryFileLocation: 'build_result/code_coverage/Coverage.cobertura.xml'
+        displayName: '上传 Code Coverage 到 azure'
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: 'VSTest'
+          testResultsFiles: '**/TestResult.xml'
+          searchFolder: '$(System.DefaultWorkingDirectory)/build_result/vstest_result/VSTestResult.xml'
+          mergeTestResults: true
+        displayName: '上传 VSTest Result 到 azure'

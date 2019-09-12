@@ -64,7 +64,7 @@ public class Settings
     /// </summarty>
     public string VSTestResultDirPath
     {
-        get { return new DirectoryPath(ReleaseDirPath).Combine("nuget_package").FullPath; }
+        get { return new DirectoryPath(ReleaseDirPath).Combine("vstest_result").FullPath; }
     }
     /// <summary>
     /// VSTest测试结果文件目录
