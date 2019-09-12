@@ -24,7 +24,7 @@ steps:
       packageType: sdk
       version: $(dotnetVersion)
       installationPath: $(Agent.ToolsDirectory)/dotnet
-  - bash: |
+  - powershell: |
       .\build\build.ps1 --bootstrap
       .\build\build.ps1 --target=Test
     env:
