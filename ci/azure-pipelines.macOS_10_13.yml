@@ -1,4 +1,4 @@
-name: Build on macOS X Mojave 10.14
+name: Build on macOS X High Sierra 10.13
 
 trigger:
   branches:
