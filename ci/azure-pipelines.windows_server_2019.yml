@@ -1,3 +1,5 @@
+name: Build on Windows Server 2019 with Visual Studio 2019
+
 trigger:
   branches:
     include:

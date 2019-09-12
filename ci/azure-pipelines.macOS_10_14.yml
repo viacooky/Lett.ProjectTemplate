@@ -1,3 +1,5 @@
+name: Build on macOS X High Sierra 10.13
+
 trigger:
   branches:
     include:

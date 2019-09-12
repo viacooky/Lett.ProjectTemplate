@@ -1,3 +1,5 @@
+name: Build on Windows Server Core 1803
+
 trigger:
   branches:
     include:
