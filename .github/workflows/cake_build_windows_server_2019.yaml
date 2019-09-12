@@ -1,4 +1,4 @@
-name: 'Build and Test on Windows Server 2019'
+name: 'Build on Windows Server 2019'
 
 on:
   push:
@@ -10,12 +10,12 @@ on:
       - master
 
 jobs:
-  Build-and-Test:
+  Build:
     runs-on: windows-2019
     steps:
       - uses: actions/checkout@v1
       - name: ‘执行 Cake Task’
         run: |
           .\build\build.ps1 --bootstrap
-          .\build\build.ps1 --target=Test
-          shell: powershell
+          .\build\build.ps1 --target=Build
+        shell: pwsh

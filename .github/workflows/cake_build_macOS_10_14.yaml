@@ -1,4 +1,4 @@
-name: 'Build and Test on macOS X Mojave 10.14'
+name: 'Build on macOS X Mojave 10.14'
 
 on:
   push:
@@ -10,11 +10,11 @@ on:
       - master
 
 jobs:
-  Build-and-Test:
+  Build:
     runs-on: macOS-10.14
     steps:
       - uses: actions/checkout@v1
       - name: ‘执行 Cake Task’
         run: |
           ./build/build.sh --bootstrap
-          ./build/build.sh --target=Test
+          ./build/build.sh --target=Build

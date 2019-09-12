@@ -1,4 +1,4 @@
-name: 'Build and Test on Ubuntu 16.04'
+name: 'Build on Ubuntu 16.04'
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
       - master
 
 jobs:
-  Build-and-Test:
+  Build:
     runs-on: ubuntu-16.04
     steps:
       - uses: actions/checkout@v1
@@ -18,4 +18,4 @@ jobs:
         run: |
           chmod +x ./build/build.sh
           ./build/build.sh --bootstrap
-          ./build/build.sh --target=Test
+          ./build/build.sh --target=Build
