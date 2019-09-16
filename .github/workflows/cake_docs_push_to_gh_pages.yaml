@@ -11,15 +11,15 @@ on:
 
 jobs:
   Build:
-    runs-on: windows-2019
+    runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v1
 
-      - name: ‘执行 Cake’
+      - name: 执行 Cake
         run: |
-          mono --version
-          .\build\build.ps1 --bootstrap
-          .\build\build.ps1 --target=Docs
+          chmod +x ./build/build.sh
+          ./build/build.sh --bootstrap
+          ./build/build.sh --target=Build
 
       - name: 'push to gh-pages'
         uses: peaceiris/actions-gh-pages@v2.3.1
