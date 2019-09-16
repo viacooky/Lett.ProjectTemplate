@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-16.04
     steps:
       - uses: actions/checkout@v1
-      - name: ‘?? Cake’ Taskâ€™
+      - name: æ‰§è¡Œ Cake
         run: |
           chmod +x ./build/build.sh
           ./build/build.sh --bootstrap
