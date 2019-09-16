@@ -181,7 +181,7 @@ Task("Nuget")
 
 Task("Docs")
 .IsDependentOn("_clean")
-.IsDependentOn("_dotNetCore_Build")
+// .IsDependentOn("_dotNetCore_Build")
 .IsDependentOn("_docfx")
 .Does(() => {
 });

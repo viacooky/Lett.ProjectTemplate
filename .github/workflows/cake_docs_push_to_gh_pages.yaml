@@ -17,6 +17,7 @@ jobs:
 
       - name: ‘执行 Cake Task’
         run: |
+          mono --version
           chmod +x ./build/build.sh
           ./build/build.sh --bootstrap
           ./build/build.sh --target=Docs
