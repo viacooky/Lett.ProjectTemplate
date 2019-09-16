@@ -17,10 +17,10 @@ jobs:
 
       - name: ‘执行 Cake Task’
         run: |
-          mono --version
+          # mono --version
           .\build\build.ps1 --bootstrap
           .\build\build.ps1 --target=Docs
-          shell: pwsh
+        shell: pwsh
 
       - name: 'push to gh-pages'
         uses: peaceiris/actions-gh-pages@v2.3.1
