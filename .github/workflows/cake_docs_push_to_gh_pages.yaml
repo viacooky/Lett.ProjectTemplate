@@ -19,7 +19,7 @@ jobs:
         run: |
           chmod +x ./build/build.sh
           ./build/build.sh --bootstrap
-          ./build/build.sh --target=Build
+          ./build/build.sh --target=Docs
 
       - name: 'push to gh-pages'
         uses: peaceiris/actions-gh-pages@v2.3.1
