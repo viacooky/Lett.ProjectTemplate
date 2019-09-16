@@ -1,0 +1,28 @@
+name: 'Generate Docs and push to github-pages'
+
+on:
+  push:
+    branches:
+      - master
+      - release/*
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  Build:
+    runs-on: ubuntu-16.04
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: ‘执行 Cake Task’
+        run: |
+          ./build/build.sh --bootstrap
+          ./build/build.sh --target=Docs
+
+      - name: 'push to gh-pages'
+        uses: peaceiris/actions-gh-pages@v2.3.1
+        env:
+          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: ./build_result/docs_site
