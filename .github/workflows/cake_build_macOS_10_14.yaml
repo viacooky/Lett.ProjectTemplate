@@ -14,7 +14,7 @@ jobs:
     runs-on: macOS-10.14
     steps:
       - uses: actions/checkout@v1
-      - name: ‘执行 Cake Task’
+      - name: �?? Cake� Task’
         run: |
           ./build/build.sh --bootstrap
           ./build/build.sh --target=Build
