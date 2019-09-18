@@ -1,4 +1,4 @@
-name: 'Windows Server 2016 R2 '
+name: 'Windows Server 2016 R2'
 
 on:
   push:
