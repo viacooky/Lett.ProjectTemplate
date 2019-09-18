@@ -1,4 +1,4 @@
-name: 'Build on macOS X Mojave 10.14'
+name: 'MacOS 10.14 '
 
 on:
   push:
